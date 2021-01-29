@@ -1,6 +1,10 @@
+// Packages
 const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
+
+// Controllers
+const user = require('./app/user');
 
 process.on('unhandledRejection', error => {
     console.trace(error);
@@ -15,17 +19,24 @@ process.on('warning', warning => {
 });
 
 const app = express();
-app.use(bodyParser.json({limit: '50mb', extended: true}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true, parameterLimit: 50000}));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 !async function () {
     try {
-        await mongoose.connect(process.env.MONGODB);
+        await mongoose.connect(process.env.MONGODB, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            useCreateIndex: true,
+            useFindAndModify: false
+        });
     } catch (e) {
         console.trace(e);
     }
 }();
 
-app.listen(process.env.PORT, function () {
+user(app);
+
+app.listen(process.env.PORT, () => {
     console.log('Magic happens on: ' + process.env.PORT);
 });
