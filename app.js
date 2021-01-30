@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 
 // Controllers
 const user = require('./app/user');
+const message = require('./app/message');
 
 process.on('unhandledRejection', error => {
     console.trace(error);
@@ -36,6 +37,7 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 }();
 
 user(app);
+message(app);
 
 app.listen(process.env.PORT, () => {
     console.log('Magic happens on: ' + process.env.PORT);
