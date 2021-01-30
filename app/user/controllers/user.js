@@ -3,7 +3,7 @@ const User = require('../models/user');
 
 // Packages
 const to = require('await-to-js').default;
-const ObjectId = require('mongoose').ObjectId;
+const ObjectId = require('mongoose').Types.ObjectId;
 const Helper = require('../../helper');
 
 const Controller = {
@@ -35,7 +35,7 @@ const Controller = {
     },
     getOne: id => {
         if (!id || !ObjectId.isValid(id)) throw 'Please provide user _id';
-        return User.findById(id).select('-passwordHash -__v').lean();
+        return User.findById(id).select('-__v').lean();
     },
     update: async (id, {username, password, address, postCode, phone, email}) => {
         if (!id || !ObjectId.isValid(id)) throw 'Please provide user _id';
