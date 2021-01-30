@@ -3,6 +3,7 @@ const User = require('../models/user');
 
 // Packages
 const to = require('await-to-js').default;
+const ObjectId = require('mongoose').ObjectId;
 const Helper = require('../../helper');
 
 const Controller = {
@@ -33,11 +34,11 @@ const Controller = {
         return User.find().select('-passwordHash -__v').lean();
     },
     getOne: id => {
-        if (!id) throw 'Please provide user _id';
+        if (!id || !ObjectId.isValid(id)) throw 'Please provide user _id';
         return User.findById(id).select('-passwordHash -__v').lean();
     },
     update: async (id, {username, password, address, postCode, phone, email}) => {
-        if (!id) throw 'Please provide user _id';
+        if (!id || !ObjectId.isValid(id)) throw 'Please provide user _id';
         if (!email) throw 'Email is required field';
 
         let update = {};
@@ -60,7 +61,7 @@ const Controller = {
         return User.findByIdAndUpdate(id, update, {new: true});
     },
     delete: async id => {
-        if (!id) throw 'Please provide user _id';
+        if (!id || !ObjectId.isValid(id)) throw 'Please provide user _id';
 
         return User.findByIdAndDelete(id);
     }
