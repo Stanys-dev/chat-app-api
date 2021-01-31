@@ -7,7 +7,8 @@ let schema = new Schema({
     address: {type: String, required: false},
     postCode: {type: Number, required: false},
     phone: {type: Number, required: false},
-    email: {type: String, required: true, unique:true, immutable: true}
+    email: {type: String, required: true, unique: true, immutable: true},
+    avatar: {data: Buffer, contentType: String}
 });
 
 let model = mongoose.model('user', schema);
