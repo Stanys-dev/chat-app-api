@@ -1,12 +1,14 @@
 // Packages
 const mongoose = require('mongoose');
-const express = require('express');
+const app = require('express')();
+const http = require('http').Server(app);
 const bodyParser = require('body-parser');
 
 // Controllers
 const user = require('./app/user');
 const message = require('./app/message');
 const avatar = require('./app/avatar');
+const socket = require('./socket');
 
 process.on('unhandledRejection', error => {
     console.trace(error);
@@ -20,7 +22,6 @@ process.on('warning', warning => {
     console.trace(warning.name, warning.message);
 });
 
-const app = express();
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
@@ -40,7 +41,12 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 user(app);
 message(app);
 avatar(app);
+socket.init(http);
 
-app.listen(process.env.PORT, () => {
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/index.html');
+});
+
+http.listen(process.env.PORT, () => {
     console.log('Magic happens on: ' + process.env.PORT);
 });

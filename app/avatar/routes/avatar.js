@@ -12,8 +12,7 @@ router.post('/', upload.single('userAvatar'), async (req, res) => {
     const [err, user] = await to(Controller.add(req.body._id, req.file.path, req.file.mimetype));
 
     if (err) return typeof err === 'string' ? res.status(400).json(err) : res.status(500).json(err.message);
-
-    user && user.avatar ? res.status(201).json(user) : res.sendStatus(204);
+    else user && user.avatar ? res.status(201).json(user) : res.sendStatus(204);
 
     fs.unlinkSync(req.file.path);
 });

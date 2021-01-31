@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat app</title>
+</head>
+<body>
+<table id="chat"></table>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io();
+
+    var chat = document.getElementById('chat');
+
+    socket.on('message', function (msg) {
+        msg = JSON.parse(msg);
+        var collumn = document.createElement('tr');
+        collumn.className = msg.from._id;
+        var photo = document.createElement('td');
+        collumn.appendChild(photo);
+        if (msg.from && msg.from.avatar) {
+            var img = document.createElement('img');
+
+            img.src = `data:${msg.from.avatar.contentType};base64,${msg.from.avatar.data}`;
+            img.style.height = '50px';
+            img.style.borderRadius = '50%';
+            photo.appendChild(img);
+        }
+        var username = document.createElement('td');
+        username.textContent = msg.from.username + ':';
+        username.style.background = 'bisque';
+        username.className = 'username';
+        collumn.appendChild(username);
+        var text = document.createElement('td');
+        text.textContent = msg.text;
+        text.style.background = 'chocolate';
+        collumn.appendChild(text);
+        chat.appendChild(collumn);
+        window.scrollTo(0, document.body.scrollHeight);
+    });
+
+    socket.on('user', function (data) {
+        data = JSON.parse(data);
+        var collumns = document.getElementsByClassName(data._id)
+        for(var collumn of collumns) {
+            if (data.avatar) {
+                var images = collumn.getElementsByTagName('img');
+                for (var image of images) {
+                    image.src = `data:${data.avatar.contentType};base64,${data.avatar.data}`;
+                }
+            }
+            if (data.username) {
+                var usernames = collumn.getElementsByClassName('username');
+                for (var username of usernames) {
+                    username.textContent = data.username + ':';
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
