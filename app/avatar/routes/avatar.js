@@ -4,12 +4,13 @@ const router = express.Router();
 const multer = require('multer');
 const upload = multer({dest: './app/avatar/images/'});
 const fs = require('fs');
+const jwtauth = require('../../helper').tokenValidation;
 
 const Controller = require('../controllers/avatar');
 
-router.post('/', upload.single('userAvatar'), async (req, res) => {
+router.post('/', [jwtauth, upload.single('userAvatar')], async (req, res) => {
 
-    const [err, user] = await to(Controller.add(req.body._id, req.file.path, req.file.mimetype));
+    const [err, user] = await to(Controller.add(req.user._id, req.file.path, req.file.mimetype));
 
     if (err) return typeof err === 'string' ? res.status(400).json(err) : res.status(500).json(err.message);
     else user && user.avatar ? res.status(201).json(user) : res.sendStatus(204);
@@ -17,8 +18,8 @@ router.post('/', upload.single('userAvatar'), async (req, res) => {
     fs.unlinkSync(req.file.path);
 });
 
-router.get('/', async (req, res) => {
-    const [err, avatar] = await to(Controller.get(req.query._id));
+router.get('/', [jwtauth], async (req, res) => {
+    const [err, avatar] = await to(Controller.get(req.user._id));
 
     if (err) return typeof err === 'string' ? res.status(400).json(err) : res.status(500).json(err.message);
 
@@ -26,9 +27,9 @@ router.get('/', async (req, res) => {
 });
 
 
-router.delete('/:_id', async (req, res) => {
+router.delete('/', [jwtauth], async (req, res) => {
 
-    const [err, user] = await to(Controller.delete(req.params._id));
+    const [err, user] = await to(Controller.delete(req.user._id));
 
     if (err) return typeof err === 'string' ? res.status(400).json(err) : res.status(500).json(err.message);
 

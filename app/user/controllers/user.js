@@ -1,5 +1,6 @@
 // Models
 const User = require('../models/user');
+const Blacklist = require('../models/blacklist');
 
 // Packages
 const to = require('await-to-js').default;
@@ -59,10 +60,19 @@ const Controller = {
 
         return User.findByIdAndUpdate(id, update, {new: true});
     },
-    delete: async id => {
-        if (!id || !ObjectId.isValid(id)) throw 'Please provide user _id';
+    delete: async user => {
+        if (!user._id || !ObjectId.isValid(user._id)) throw 'Please provide user _id';
 
-        return User.findByIdAndDelete(id);
+        try {
+            await Blacklist.create({
+                token: user.token,
+                expiration: user.expiration
+            });
+        } catch (e) {
+            throw e;
+        }
+
+        return User.findByIdAndDelete(user._id);
     }
 };
 

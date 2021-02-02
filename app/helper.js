@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('./user/models/user');
 const config = require('../config');
-const Blacklist = require('./user/models/blacklist')
+const Blacklist = require('./user/models/blacklist');
 
 const Controller = {
     hash: password => {
@@ -16,15 +16,6 @@ const Controller = {
     },
     stringRegexOverride: (str) => {
         return str.split('(').join('\\(').split(')').join('\\)').split('+').join('\\+').split('|').join('\\|');
-    },
-    randomString: (length) => {
-        let result = '';
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        const charactersLength = characters.length;
-        for (let i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
     },
     verifyToken: function (token) {
         try {
@@ -52,19 +43,22 @@ const Controller = {
                 } else if (decodedToken.expired) {
                     res.status(401).json('User\'s token expired');
                 } else {
-                    let blackListed = await Blacklist.exists({token})
+                    let blackListed = await Blacklist.exists({token});
 
-                    if(blackListed) return res.status(401).json('User\'s token expired')
-
+                    if (blackListed) return res.status(401).json('User\'s token expired');
                     let user = await User.findOne({
                         _id: decodedToken.id
                     }).lean();
+
+                    if (!user) return res.status(400).json('User doesn\'t exist');
+
                     user.token = req.token;
-                    user.expiration = decodedToken.exp * 1000
+                    user.expiration = decodedToken.exp * 1000;
                     req.user = user;
                     next();
                 }
             } catch (err) {
+                console.trace(err);
                 res.status(400).json({message: 'Error with your token', error: err.message});
             }
         } else {

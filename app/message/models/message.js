@@ -12,7 +12,7 @@ let schema = new Schema({
 schema.plugin(require('mongoose-autopopulate'));
 
 schema.index({from: 1, to: 1}, {background: true});
-schema.index({from: 1, to: 1, text: 1}, {background: true});
+schema.index({from: 1, to: 1, createdAt: -1}, {background: true});
 
 schema.post('save', function () {
     io.send('message', this);

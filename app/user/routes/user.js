@@ -47,7 +47,7 @@ router.put('/',  [jwtauth], async (req, res) => {
 
 router.delete('/', [jwtauth], async (req, res) => {
 
-    const [err, user] = await to(Controller.delete(req.user._id));
+    const [err, user] = await to(Controller.delete(req.user));
 
     if (err) return typeof err === 'string' ? res.status(400).json(err) : res.status(500).json(err.message);
 

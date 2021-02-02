@@ -1,0 +1,520 @@
+{
+	"info": {
+		"_postman_id": "98e201aa-300e-407b-8519-cca0f17d3b70",
+		"name": "Chat-app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "Create new user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Stanys-dev\",\r\n    \"password\": \"node.js\",\r\n    \"address\": \"Kaunas\",\r\n    \"postCode\": 90005,\r\n    \"phone\": 862763879,\r\n    \"email\": \"antanas@stanys.eu\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3333/api/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3333/api/user/all",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"user",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one user by _id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3333/api/user/601837fb8483fc59d894a134",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"user",
+								"601837fb8483fc59d894a134"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one user by token",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMTgzN2ZiODQ4M2ZjNTlkODk0YTEzNCIsImlhdCI6MTYxMjIwMTg1MSwiZXhwIjoxNjEyMjAxODU2fQ.nJtx2UoEgOIK3Tf4RBFSjHd3Xpk58GpwoJfbCHn9_R0",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3333/api/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update user",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMTgzN2ZiODQ4M2ZjNTlkODk0YTEzNCIsImlhdCI6MTYxMjIwMjczOCwiZXhwIjoxNjEzMDY2NzM4fQ.ZrBtIuQHy2dWlp6r8Fy1YjDOQdXbTimmnBRRVJnTRSQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"stanys\",\r\n    \"password\": \"node.js\",\r\n    \"address\": \"kaunas\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3333/api/user/",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3333/api/user/60150fb789599963d4ee1c53",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"user",
+								"60150fb789599963d4ee1c53"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "message",
+			"item": [
+				{
+					"name": "Create message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"from\": \"60150f3689599963d4ee1c52\",\r\n    \"to\": \"601512ae6b4dab1554a9c3dd\",\r\n    \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc convallis sodales ullamcorper. Sed in sagittis nibh. Morbi porttitor ut nisi sit amet sodales. Nulla malesuada pulvinar elit volutpat faucibus. Aenean ullamcorper hendrerit orci in volutpat. Proin eu ullamcorper neque. Quisque aliquet, enim eget venenatis ultricies, ante lacus mattis tellus, vel iaculis turpis metus non mauris. Nullam ultrices justo in orci semper convallis. Aliquam finibus purus nec diam bibendum varius. Praesent quis velit felis. Maecenas vitae ante eu arcu sagittis vestibulum. Vestibulum maximus at magna eu dignissim. Morbi euismod porttitor odio. Morbi euismod a erat a tempus. Donec molestie tortor vel neque dapibus, sagittis gravida velit sagittis. \"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3333/api/message",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"message"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get messages",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMTkzMGFmZGZjMzMzMGVmODY0N2VhMyIsImlhdCI6MTYxMjI2Mzg1NCwiZXhwIjoxNjEyMzUwMjU0fQ.9BAPdtJv0B6yVVZCgTq8gX-E_SWW03Eg6Jm5C2mhOFY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3333/api/message?friend=60192cd167856e31ccfa4856",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"message"
+							],
+							"query": [
+								{
+									"key": "friend",
+									"value": "60192cd167856e31ccfa4856"
+								},
+								{
+									"key": "text",
+									"value": "nullam",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Edit message",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMTkzMGFmZGZjMzMzMGVmODY0N2VhMyIsImlhdCI6MTYxMjI2Mzg1NCwiZXhwIjoxNjEyMzUwMjU0fQ.9BAPdtJv0B6yVVZCgTq8gX-E_SWW03Eg6Jm5C2mhOFY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"text\": \"test\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3333/api/message/601930dfdfc3330ef8647ea5",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"message",
+								"601930dfdfc3330ef8647ea5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete message",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMTkzMGFmZGZjMzMzMGVmODY0N2VhMyIsImlhdCI6MTYxMjI2Mzg1NCwiZXhwIjoxNjEyMzUwMjU0fQ.9BAPdtJv0B6yVVZCgTq8gX-E_SWW03Eg6Jm5C2mhOFY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3333/api/message/601930dfdfc3330ef8647ea5",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"message",
+								"601930dfdfc3330ef8647ea5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user's chats",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMTkzMGFmZGZjMzMzMGVmODY0N2VhMyIsImlhdCI6MTYxMjI2Mzg1NCwiZXhwIjoxNjEyMzUwMjU0fQ.9BAPdtJv0B6yVVZCgTq8gX-E_SWW03Eg6Jm5C2mhOFY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"from\": \"601930afdfc3330ef8647ea3\",\r\n    \"to\": \"60192cf667856e31ccfa4857\",\r\n    \"text\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc convallis sodales ullamcorper. Sed in sagittis nibh. Morbi porttitor ut nisi sit amet sodales. Nulla malesuada pulvinar elit volutpat faucibus. Aenean ullamcorper hendrerit orci in volutpat. Proin eu ullamcorper neque. Quisque aliquet, enim eget venenatis ultricies, ante lacus mattis tellus, vel iaculis turpis metus non mauris. Nullam ultrices justo in orci semper convallis. Aliquam finibus purus nec diam bibendum varius. Praesent quis velit felis. Maecenas vitae ante eu arcu sagittis vestibulum. Vestibulum maximus at magna eu dignissim. Morbi euismod porttitor odio. Morbi euismod a erat a tempus. Donec molestie tortor vel neque dapibus, sagittis gravida velit sagittis. \"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3333/api/message/chats",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"message",
+								"chats"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "avatar",
+			"item": [
+				{
+					"name": "Add/update user avatar",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMTkzMGFmZGZjMzMzMGVmODY0N2VhMyIsImlhdCI6MTYxMjI2Mzg1NCwiZXhwIjoxNjEyMzUwMjU0fQ.9BAPdtJv0B6yVVZCgTq8gX-E_SWW03Eg6Jm5C2mhOFY",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "userAvatar",
+									"type": "file",
+									"src": "/C:/Users/mailb/Downloads/72669218_472914450231145_9070536583404322816_o.jpg"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3333/api/avatar/",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"avatar",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get user avatar",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMTkzMGFmZGZjMzMzMGVmODY0N2VhMyIsImlhdCI6MTYxMjI2Mzg1NCwiZXhwIjoxNjEyMzUwMjU0fQ.9BAPdtJv0B6yVVZCgTq8gX-E_SWW03Eg6Jm5C2mhOFY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3333/api/avatar/",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"avatar",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user avatar",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMTkzMGFmZGZjMzMzMGVmODY0N2VhMyIsImlhdCI6MTYxMjI2Mzg1NCwiZXhwIjoxNjEyMzUwMjU0fQ.9BAPdtJv0B6yVVZCgTq8gX-E_SWW03Eg6Jm5C2mhOFY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3333/api/avatar/",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"avatar",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "New user registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Stanys-dev\",\r\n    \"password\": \"node.js\",\r\n    \"address\": \"Kaunas\",\r\n    \"postCode\": 90005,\r\n    \"phone\": 862763879,\r\n    \"email\": \"antanas@stanys.eu\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3333/api/user/auth/register",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"user",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"password\": \"node.js\",\r\n    \"email\": \"antanas@stanys.eu\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3333/api/user/auth/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"user",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwMTg0YjViMzlmN2QyMzg5MDhjNzU2NCIsImlhdCI6MTYxMjIwNDkyNywiZXhwIjoxNjEyMjkxMzI3fQ.xF7B_f-oUDjD-pQ8d0m5KzAbRRjAneT59ZD46rFLvag",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "localhost:3333/api/user/auth/logout",
+							"host": [
+								"localhost"
+							],
+							"port": "3333",
+							"path": [
+								"api",
+								"user",
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

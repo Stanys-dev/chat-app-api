@@ -4,6 +4,7 @@ const Message = require('../models/message');
 // Packages
 const Helper = require('../../helper');
 const ObjectId = require('mongoose').Types.ObjectId;
+const to = require('await-to-js').default;
 
 const Controller = {
     create: async (from, messageReceiver, text) => {
@@ -17,28 +18,52 @@ const Controller = {
             text
         });
     },
-    get: async (users, text) => {
-        if (!users) throw 'Please provide users _id\'s';
-        users = JSON.parse(users);
-        if (users.length === 0) throw 'Please provide users _id\'s';
-        if (users.filter(u => ObjectId.isValid(u)).length !== 2) throw 'Please provide valid users _id\'s';
+    get: async (authorisedUser, friend, text) => {
+        if (!friend) throw 'Please provide friend\'s _id';
+        if (!authorisedUser) throw 'Please provide token';
+
         let query = {
-            from: {$in: users},
-            to: {$in: users}
+            from: {$in: [friend, authorisedUser]},
+            to: {$in: [friend, authorisedUser]}
         };
 
         if (text) query.text = {$regex: Helper.stringRegexOverride(text), $options: 'i'};
-        return Message.find(query).select('-__v').lean();
+        // Because this query by default use index {from:1} I added hint. Regex with case insensitive option doesn't support index, that's why hint doesn't include text index.
+        return Message.find(query).sort({createdAt: 1}).hint({from: 1, to: 1, createdAt: -1}).select('-__v').lean();
     },
-    update: async (id, text) => {
+    getUsersChats: async (_id) => {
+        const [messagesErr, messages] = await to(Message.find({$or: [{from: _id}, {to: _id}]}).sort({createdAt: -1}).hint({
+            from: 1,
+            to: 1,
+            createdAt: -1
+        }).select('-__v'));
+
+        if (messagesErr) throw messagesErr;
+
+        const usersSet = new Set();
+        const chats = [];
+
+        for (const message of messages) {
+            const from = message.from._id.toString();
+            const receiver = message.to._id.toString();
+            if (usersSet.has(from) && usersSet.has(receiver)) continue;
+            usersSet.add(from);
+            usersSet.add(receiver);
+
+            chats.push(message);
+        }
+
+        return chats;
+    },
+    update: async (user, id, text) => {
         if (!id || !ObjectId.isValid(id)) throw 'Please provide message _id';
 
-        return Message.findByIdAndUpdate(id, {text}, {new: true});
+        return Message.findOneAndUpdate({from: user, _id: id}, {text}, {new: true});
     },
-    delete: async id => {
-        if (!id || !ObjectId.isValid(id)) throw 'Please provide user _id';
+    delete: async (user, id) => {
+        if (!id || !ObjectId.isValid(id)) throw 'Please provide message _id';
 
-        return Message.findByIdAndDelete(id);
+        return Message.findOneAndDelete({from: user, _id: id});
     }
 };
 
