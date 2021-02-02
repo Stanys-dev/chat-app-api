@@ -37,14 +37,13 @@ const Controller = {
         if (!id || !ObjectId.isValid(id)) throw 'Please provide user _id';
         return User.findById(id).select('-__v').lean();
     },
-    update: async (id, {username, password, address, postCode, phone, email}) => {
+    update: async (id, {username, password, address, postCode, phone}) => {
         if (!id || !ObjectId.isValid(id)) throw 'Please provide user _id';
-        if (!email) throw 'Email is required field';
 
         let update = {};
 
         if (username) {
-            const [existsErr, exists] = await to(User.exists({username, email: {$ne: email}}));
+            const [existsErr, exists] = await to(User.exists({username, _id: {$ne: id}}));
 
             if (existsErr) throw existsErr;
 

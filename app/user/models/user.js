@@ -10,7 +10,7 @@ let schema = new Schema({
     phone: {type: Number, required: false},
     email: {type: String, required: true, unique: true, immutable: true},
     avatar: {data: Buffer, contentType: String}
-});
+}, {timestamps: true});
 
 schema.pre('findOneAndUpdate', function () {
     if (this._conditions._id) io.send('user', {_id: this._conditions._id, ...this._update});
